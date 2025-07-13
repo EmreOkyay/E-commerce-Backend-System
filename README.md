@@ -40,3 +40,4 @@ After clicking the verification link, user will be enabled and can login
 - RabbitMQ
 - JavaMailSender
 - BCrypt (password hashing)
+- JUnit / Mockito (for testing)
