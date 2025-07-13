@@ -19,7 +19,7 @@ It supports full user authentication flow with email verification and password h
 After user is registered, their login data will be stored and an email will be sent to enable their account
 <img width="1146" height="469" alt="Screenshot_3" src="https://github.com/user-attachments/assets/ada7f64b-9c79-437e-b4f3-6f65b90f1359" />
 
-Currently user is not enabled thus can not login
+Currently, user is not enabled thus can not log in
 <img width="1354" height="116" alt="Screenshot_5" src="https://github.com/user-attachments/assets/9c2c9918-ddd0-4369-8aa1-33a5b6c7e491" />
 
 ## Email Verification
