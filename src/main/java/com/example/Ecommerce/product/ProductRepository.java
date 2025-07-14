@@ -18,7 +18,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "WHERE p.productName = :productName")
     Optional<Product> findProductByName(String productName);
 
-    @Query("SELECT p FROM Product p " +
-            "WHERE p.isAvailable = true")
+    @Query("SELECT p FROM Product p WHERE p.productStock > 0")
     ArrayList<Product> findProductsWithAvailableStock();
+
+    Optional<Product> findById(Long id);
 }

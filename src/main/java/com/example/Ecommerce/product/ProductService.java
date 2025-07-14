@@ -13,6 +13,14 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
+    public Product saveProduct(Product product) {
+        return productRepository.save(product);
+    }
+
+    public Optional<Product> findProductById(Long id) {
+        return productRepository.findById(id);
+    }
+
     public ArrayList<Product> findAllProducts() {
         return productRepository.findAllProducts();
     }
@@ -21,10 +29,8 @@ public class ProductService {
         return productRepository.findProductByName(productName);
     }
 
-    public ArrayList<Product> findProductsWithAvailableStock() {
-        ArrayList<Product> products = new ArrayList<>();
-        productRepository.findAll().forEach(product -> products.add(product));
-        return products;
+    public ArrayList<Product> getProductsWithAvailableStock() {
+        return productRepository.findProductsWithAvailableStock();
     }
 
     public void addProduct(Product product) {
@@ -50,5 +56,11 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    public void deleteProduct(Long id) {
+        if (!productRepository.existsById(id)) {
+            throw new RuntimeException("Product with id " + id + " not found");
+        }
+        productRepository.deleteById(id);
+    }
 }
 

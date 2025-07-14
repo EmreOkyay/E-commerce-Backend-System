@@ -28,7 +28,7 @@ public class ProductController {
 
     @GetMapping(path = "/available")
     public ArrayList<Product> findProductsWithAvailableStock() {
-        return productService.findProductsWithAvailableStock();
+        return productService.getProductsWithAvailableStock();
     }
 
     @PostMapping
@@ -41,4 +41,34 @@ public class ProductController {
     public void buyProduct(@PathVariable Long id) {
         productService.buyProduct(id);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct) {
+        Optional<Product> existingProduct = productService.findProductById(id);
+
+        if (existingProduct.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        existingProduct.get().setProductName(updatedProduct.getProductName());
+        existingProduct.get().setProductDescription(updatedProduct.getProductDescription());
+        existingProduct.get().setProductPrice(updatedProduct.getProductPrice());
+        existingProduct.get().setProductCategory(updatedProduct.getProductCategory());
+        existingProduct.get().setProductStock(updatedProduct.getProductStock());
+
+        Product savedProduct = productService.saveProduct(existingProduct.orElse(null));
+
+        return ResponseEntity.ok(savedProduct);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
+        try {
+            productService.deleteProduct(id);
+            return ResponseEntity.ok("Product deleted successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
 }
