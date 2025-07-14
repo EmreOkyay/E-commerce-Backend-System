@@ -1,6 +1,6 @@
-# Java Register/Login System (Spring Boot, PostgreSQL, RabbitMQ)
+# Java E-commerce Backend System (Spring Boot, PostgreSQL, RabbitMQ)
 
-This project is a secure **user registration and login system** built using **Spring Boot**, **Java**, **JPA/Hibernate**, **PostgreSQL**, and **RabbitMQ**.
+This project is a robust e-commerce backend system built with **Spring Boot**, **Java**, **JPA/Hibernate**, **PostgreSQL**, and **RabbitMQ**, providing secure user management, product handling, and asynchronous messaging capabilities.
 
 It supports full user authentication flow with email verification and password hashing, and it includes full CRUD support on user data.
 
