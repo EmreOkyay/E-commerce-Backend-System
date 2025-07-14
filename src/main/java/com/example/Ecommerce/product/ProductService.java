@@ -1,4 +1,4 @@
-package com.example.Login.product;
+package com.example.Ecommerce.product;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
