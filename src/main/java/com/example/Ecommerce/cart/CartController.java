@@ -1,7 +1,6 @@
 package com.example.Ecommerce.cart;
 
 import com.example.Ecommerce.appuser.AppUser;
-import com.example.Ecommerce.product.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
