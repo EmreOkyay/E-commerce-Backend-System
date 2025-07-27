@@ -1,6 +1,7 @@
 package com.example.Ecommerce.cart;
 
 import com.example.Ecommerce.appuser.AppUser;
+import com.example.Ecommerce.order.dto.DTOConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,9 @@ public class CartController {
 
     // 1. Sepeti getir
     @GetMapping
-    public ResponseEntity<Cart> getCart(@RequestBody AppUser user) {
+    public ResponseEntity<CartDTO> getCart(@RequestBody AppUser user) {
         Cart cart = cartService.getCart(user);
-        return ResponseEntity.ok(cart);
+        return ResponseEntity.ok(DTOConverter.convertToCartDTO(cart));
     }
 
     // 2. Sepete ürün ekle

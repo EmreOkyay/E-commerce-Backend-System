@@ -1,6 +1,7 @@
 package com.example.Ecommerce.cart;
 
 import com.example.Ecommerce.appuser.AppUser;
+import com.example.Ecommerce.order.dto.DTOConverter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -9,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,14 +27,22 @@ class CartControllerTest {
         // given
         AppUser user = new AppUser();
         Cart cart = new Cart();
+        cart.setId(1L);
+        cart.setUser(user);
+
+        CartDTO cartDTO = DTOConverter.convertToCartDTO(cart);
+
         when(cartService.getCart(user)).thenReturn(cart);
 
         // when
-        Cart result = cartController.getCart(user).getBody();
+        CartDTO result = cartController.getCart(user).getBody();
 
         // then
-        assertEquals(cart, result);
+        assertNotNull(result);
+        assertEquals(cartDTO.getId(), result.getId());
+        assertEquals(cartDTO.getUser().getEmail(), result.getUser().getEmail());
     }
+
 
     @Test
     void itShouldAddToCart() {

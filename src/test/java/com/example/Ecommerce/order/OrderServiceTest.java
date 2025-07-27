@@ -5,6 +5,7 @@ import com.example.Ecommerce.appuser.AppUserRepository;
 import com.example.Ecommerce.cart.Cart;
 import com.example.Ecommerce.cart.CartItem;
 import com.example.Ecommerce.cart.CartRepository;
+import com.example.Ecommerce.order.dto.OrderDTO;
 import com.example.Ecommerce.product.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -153,7 +154,7 @@ class OrderServiceTest {
 
         when(orderRepository.findAllByUser(user)).thenReturn(mockOrders);
 
-        List<Order> result = orderService.getOrders(user);
+        List<OrderDTO> result = orderService.getOrders(user);
 
         assertEquals(2, result.size());
         verify(orderRepository, times(1)).findAllByUser(user);
@@ -169,7 +170,7 @@ class OrderServiceTest {
 
         when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
 
-        Order result = orderService.getOrderById(1L, user);
+        OrderDTO result = orderService.getOrderById(1L, user);
 
         assertEquals(1L, result.getId());
     }
