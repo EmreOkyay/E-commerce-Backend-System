@@ -1,4 +1,4 @@
-package com.example.Ecommerce.cart;
+package com.example.Ecommerce.cart.dto;
 
 import com.example.Ecommerce.appuser.dto.UserSummaryDTO;
 import lombok.Data;
