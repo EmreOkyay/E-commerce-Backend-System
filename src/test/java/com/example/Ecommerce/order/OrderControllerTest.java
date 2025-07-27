@@ -2,6 +2,7 @@ package com.example.Ecommerce.order;
 
 import com.example.Ecommerce.appuser.AppUser;
 import com.example.Ecommerce.appuser.AppUserRepository;
+import com.example.Ecommerce.order.dto.OrderDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -49,9 +50,16 @@ class OrderControllerUnitTest {
     @Test
     void testGetOrders() {
         when(appUserRepository.findByEmail("atilla@hotmail.com")).thenReturn(Optional.of(user));
-        when(orderRepository.findAllByUser(user)).thenReturn(List.of(order));
 
-        ResponseEntity<List<Order>> response = orderController.getOrders("atilla@hotmail.com");
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setId(order.getId());
+        orderDTO.setStatus(String.valueOf(order.getStatus()));
+        orderDTO.setTotalAmount(order.getTotalAmount());
+        orderDTO.setCreatedAt(order.getCreatedAt());
+
+        when(orderService.getOrders(user)).thenReturn(List.of(orderDTO));
+
+        ResponseEntity<List<OrderDTO>> response = orderController.getOrders("atilla@hotmail.com");
 
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(1, response.getBody().size());
@@ -61,9 +69,16 @@ class OrderControllerUnitTest {
     @Test
     void testGetOrderById() {
         when(appUserRepository.findByEmail("atilla@hotmail.com")).thenReturn(Optional.of(user));
-        when(orderService.getOrderById(1L, user)).thenReturn(order);
 
-        ResponseEntity<Order> response = orderController.getOrderById(1L, "atilla@hotmail.com");
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setId(order.getId());
+        orderDTO.setStatus(String.valueOf(order.getStatus()));
+        orderDTO.setTotalAmount(order.getTotalAmount());
+        orderDTO.setCreatedAt(order.getCreatedAt());
+
+        when(orderService.getOrderById(eq(1L), eq(user))).thenReturn(orderDTO);
+
+        ResponseEntity<OrderDTO> response = orderController.getOrderById(1L, "atilla@hotmail.com");
 
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(order.getId(), response.getBody().getId());

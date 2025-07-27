@@ -2,14 +2,17 @@ package com.example.Ecommerce.order;
 
 import com.example.Ecommerce.appuser.AppUser;
 import com.example.Ecommerce.appuser.AppUserRepository;
+import com.example.Ecommerce.order.dto.DTOConverter;
 import com.example.Ecommerce.cart.Cart;
 import com.example.Ecommerce.cart.CartItem;
 import com.example.Ecommerce.cart.CartRepository;
+import com.example.Ecommerce.order.dto.OrderDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -62,11 +65,14 @@ public class OrderService {
     }
 
 
-    public List<Order> getOrders(AppUser user) {
-        return orderRepository.findAllByUser(user);
+    public List<OrderDTO> getOrders(AppUser user) {
+        List<Order> orders = orderRepository.findAllByUser(user);
+        return orders.stream()
+                .map(DTOConverter::convertToOrderDTO)
+                .collect(Collectors.toList());
     }
 
-    public Order getOrderById(Long orderId, AppUser user) {
+    public OrderDTO getOrderById(Long orderId, AppUser user) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Sipariş bulunamadı"));
 
@@ -74,6 +80,6 @@ public class OrderService {
             throw new IllegalStateException("Bu sipariş size ait değil.");
         }
 
-        return order;
+        return DTOConverter.convertToOrderDTO(order);
     }
 }
