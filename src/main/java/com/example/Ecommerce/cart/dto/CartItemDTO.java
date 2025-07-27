@@ -1,11 +1,9 @@
-package com.example.Ecommerce.cart;
+package com.example.Ecommerce.cart.dto;
 
 import com.example.Ecommerce.product.dto.ProductDTO;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.math.BigDecimal;
 
 @Getter
 @Setter
