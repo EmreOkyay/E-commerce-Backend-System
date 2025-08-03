@@ -1,5 +1,6 @@
 package com.example.Ecommerce.product;
 
+import com.example.Ecommerce.category.Category;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,4 +31,7 @@ public class Product {
     private String productCategory;
     private Long productStock;
     private Boolean isAvailable = true;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 }
