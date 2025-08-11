@@ -33,7 +33,6 @@ public class Order {
 
     private BigDecimal totalAmount;
 
-
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<OrderItem> items = new ArrayList<>();

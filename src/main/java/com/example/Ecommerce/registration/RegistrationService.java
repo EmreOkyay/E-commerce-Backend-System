@@ -36,7 +36,6 @@ public class RegistrationService {
                         request.getEmail(),
                         request.getPassword(),
                         AppUserRole.USER
-
                 )
         );
 
@@ -44,7 +43,6 @@ public class RegistrationService {
 
         if (validator.test(request.getEmail()))
             emailSender.send(request.getEmail(), buildEmail(request.getFirstName(), link));
-
         return token;
     }
 

@@ -27,9 +27,7 @@ public class DTOConverter {
         List<OrderItemDTO> itemDTOs = order.getItems().stream()
                 .map(DTOConverter::convertToOrderItemDTO)
                 .collect(Collectors.toList());
-
         dto.setItems(itemDTOs);
-
         return dto;
     }
 
@@ -70,7 +68,6 @@ public class DTOConverter {
                 .map(DTOConverter::convertToCartItemDTO)
                 .collect(Collectors.toList());
         dto.setItems(items);
-
         return dto;
     }
 
@@ -81,6 +78,5 @@ public class DTOConverter {
         dto.setQuantity(item.getQuantity());
         return dto;
     }
-
 }
 

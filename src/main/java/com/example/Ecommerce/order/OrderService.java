@@ -56,14 +56,12 @@ public class OrderService {
                     item.getProduct().getProductPrice().multiply(BigDecimal.valueOf(item.getQuantity()))
             );
         }
-
         order.setTotalAmount(totalAmount);
         orderRepository.save(order);
 
         cart.getItems().clear();
         cartRepository.save(cart);
     }
-
 
     public List<OrderDTO> getOrders(AppUser user) {
         List<Order> orders = orderRepository.findAllByUser(user);
@@ -79,7 +77,6 @@ public class OrderService {
         if (!order.getUser().getId().equals(user.getId())) {
             throw new IllegalStateException("Bu sipariş size ait değil.");
         }
-
         return DTOConverter.convertToOrderDTO(order);
     }
 }

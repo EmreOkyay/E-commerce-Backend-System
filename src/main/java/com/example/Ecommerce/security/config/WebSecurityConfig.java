@@ -36,29 +36,8 @@ public class WebSecurityConfig {
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
-
-    /*
-
-    TEST İÇİN ŞİMDİLİK SECURITY DEVREDIŞI BIRAKMA
-
-    TODO: Gerçek bir login mekanizması kullanıp, giriş yapıp token/cookie ile POST isteği yap
-
-        @Bean
-        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-            http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                    .anyRequest().permitAll()   // tüm isteklere izin ver
-                )
-                .formLogin(Customizer.withDefaults());
-
-            return http.build();
-        }
-
-     */
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
