@@ -39,3 +39,5 @@ public class CategoryServiceImpl implements CategoryService {
     }
 }
 
+// TODO: create relation between category and product [one-to-many]
+

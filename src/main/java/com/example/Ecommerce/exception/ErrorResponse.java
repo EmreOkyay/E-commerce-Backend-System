@@ -16,3 +16,5 @@ public class ErrorResponse {
         this.timestamp = timestamp;
     }
 }
+
+// TODO: Create all exceptions here
