@@ -1,20 +1,18 @@
 package com.example.Ecommerce.exception;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ErrorResponse {
     private String message;
     private LocalDateTime timestamp;
-
-    public ErrorResponse(String message, LocalDateTime timestamp) {
-        this.message = message;
-        this.timestamp = timestamp;
-    }
+    private String path;
+    private int status;
+    private String error;
 }
-
-// TODO: Create all exceptions here
