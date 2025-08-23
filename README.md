@@ -1,15 +1,15 @@
 # Java E-commerce Backend System (Spring Boot, PostgreSQL, RabbitMQ)
 
-This project is a scalable and test-driven e-commerce backend system built with **Spring Boot**, **Java**, **JPA/Hibernate**, **PostgreSQL**, and **RabbitMQ**, designed to handle core e-commerce functionalities including user management, product management, and asynchronous messaging.
+This project is a scalable and test-driven e-commerce backend system built with **Spring Boot**, **ava**, **JPA/Hibernate**, **PostgreSQL**, and **RabbitMQ**, designed to handle core e-commerce functionalities including user management, product management, shopping cart operations such as adding and removing products, as well as order management that allows placing and tracking orders, all while supporting asynchronous messaging for improved scalability and decoupling.
 
 ## Features
 
 - User registration with hashed password storage (BCrypt)
 - User login with credential verification
-- Email confirmation with expiring link (15 minutes)
+- Email confirmation with expiring link
 - PostgreSQL database integration via JPA/Hibernate
 - RabbitMQ integration for async email messaging
-- Full CRUD support for user data
+- Full CRUD support for user, product, cart and order data
 - Spring Boot powered RESTful backend
 - Clean architecture with DTO & Entity separation
 
