@@ -23,4 +23,13 @@ public class MailService {
             e.printStackTrace();
         }
     }
+
+    public void sendUserActivatedEmail(String toEmail) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject("Hesabınız Aktifleştirildi!");
+        message.setText("Tebrikler! Hesabınız başarıyla aktifleştirildi ve artık giriş yapabilirsiniz.");
+        mailSender.send(message);
+        System.out.println(" [x] Activation email sent to " + toEmail);
+    }
 }

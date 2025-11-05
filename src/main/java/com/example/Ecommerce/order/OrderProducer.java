@@ -3,6 +3,7 @@ package com.example.Ecommerce.order;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.springframework.amqp.core.Queue;
@@ -15,7 +16,7 @@ public class OrderProducer {
     private Queue queue;
 
     @Autowired
-    public OrderProducer(RabbitTemplate rabbitTemplate, ObjectMapper objectMapper, Queue queue) {
+    public OrderProducer(RabbitTemplate rabbitTemplate, ObjectMapper objectMapper, @Qualifier("orderQueue") Queue queue) {
         this.rabbitTemplate = rabbitTemplate;
         this.objectMapper = objectMapper;
         this.queue = queue;

@@ -7,6 +7,7 @@ import com.example.Ecommerce.email.EmailSender;
 import com.example.Ecommerce.email.EmailValidator;
 import com.example.Ecommerce.registration.token.ConfirmationToken;
 import com.example.Ecommerce.registration.token.ConfirmationTokenService;
+import com.example.Ecommerce.registration.user.UserProducer;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ public class RegistrationService {
     private final EmailValidator emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
+    private final UserProducer userProducer;
     EmailValidator validator = new EmailValidator();
 
     public String register(RegistrationRequest request) {
@@ -64,8 +66,8 @@ public class RegistrationService {
         }
 
         confirmationTokenService.setConfirmedAt(token);
-        appUserService.enableAppUser(
-                confirmationToken.getAppUser().getEmail());
+        appUserService.enableAppUser(confirmationToken.getAppUser().getEmail());
+        userProducer.sendUserMail(confirmationToken.getAppUser().getEmail());
         return "REGISTRATION CONFIRMED!";
     }
 
