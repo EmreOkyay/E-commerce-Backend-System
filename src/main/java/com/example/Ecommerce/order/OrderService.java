@@ -2,10 +2,10 @@ package com.example.Ecommerce.order;
 
 import com.example.Ecommerce.appuser.AppUser;
 import com.example.Ecommerce.appuser.AppUserRepository;
-import com.example.Ecommerce.order.dto.DTOConverter;
 import com.example.Ecommerce.cart.Cart;
 import com.example.Ecommerce.cart.CartItem;
 import com.example.Ecommerce.cart.CartRepository;
+import com.example.Ecommerce.order.dto.DTOConverter;
 import com.example.Ecommerce.order.dto.OrderDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +21,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
     private final AppUserRepository appUserRepository;
+    private final OrderProducer orderProducer;
 
     public void createOrder(CreateOrderRequest request) {
         if (request.getUserId() == null) {
@@ -58,6 +59,8 @@ public class OrderService {
         }
         order.setTotalAmount(totalAmount);
         orderRepository.save(order);
+
+        orderProducer.sendOrderMessage(order);
 
         cart.getItems().clear();
         cartRepository.save(cart);
