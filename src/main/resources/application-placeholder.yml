@@ -8,6 +8,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/registration
     username: postgres
     password: [your_db_password]
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
   jpa:
     hibernate:
