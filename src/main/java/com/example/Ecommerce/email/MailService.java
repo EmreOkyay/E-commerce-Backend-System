@@ -15,8 +15,8 @@ public class MailService {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(toEmail);
-            message.setSubject("Sipariş Oluşturuldu");
-            message.setText("Siparişiniz başarıyla oluşturuldu! Sipariş numaranız: " + orderId);
+            message.setSubject("Order created");
+            message.setText("Order successfully created! Order no: " + orderId);
             mailSender.send(message);
             System.out.println("Mail sent to " + toEmail);
         } catch (Exception e) {
@@ -27,9 +27,9 @@ public class MailService {
     public void sendUserActivatedEmail(String toEmail) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(toEmail);
-        message.setSubject("Hesabınız Aktifleştirildi!");
-        message.setText("Tebrikler! Hesabınız başarıyla aktifleştirildi ve artık giriş yapabilirsiniz.");
+        message.setSubject("Your account is now active!");
+        message.setText("Congratulations! Your account has been activated and you can now log in.");
         mailSender.send(message);
-        System.out.println(" [x] Activation email sent to " + toEmail);
+        System.out.println("Activation email sent to " + toEmail);
     }
 }

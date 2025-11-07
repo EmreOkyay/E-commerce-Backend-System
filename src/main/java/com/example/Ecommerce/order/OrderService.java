@@ -25,17 +25,17 @@ public class OrderService {
 
     public void createOrder(CreateOrderRequest request) {
         if (request.getUserId() == null) {
-            throw new IllegalArgumentException("userId null olamaz.");
+            throw new IllegalArgumentException("userId can not be null");
         }
 
         AppUser user = appUserRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Cart cart = cartRepository.findByUser(user)
-                .orElseThrow(() -> new IllegalArgumentException("Kullanıcının sepeti bulunamadı"));
+                .orElseThrow(() -> new IllegalArgumentException("Users cart could not be found"));
 
         if (cart.getItems().isEmpty()) {
-            throw new IllegalStateException("Sepet boş. Sipariş oluşturulamaz.");
+            throw new IllegalStateException("Cart is empty. Cannot create an order");
         }
 
         Order order = new Order();
@@ -75,10 +75,10 @@ public class OrderService {
 
     public OrderDTO getOrderById(Long orderId, AppUser user) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Sipariş bulunamadı"));
+                .orElseThrow(() -> new IllegalArgumentException("Could not find the order"));
 
         if (!order.getUser().getId().equals(user.getId())) {
-            throw new IllegalStateException("Bu sipariş size ait değil.");
+            throw new IllegalStateException("This order does not belong to you");
         }
         return DTOConverter.convertToOrderDTO(order);
     }

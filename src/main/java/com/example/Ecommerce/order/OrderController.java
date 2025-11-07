@@ -39,6 +39,6 @@ public class OrderController {
     @PostMapping("/create")
     public ResponseEntity<String> createOrder(@RequestBody CreateOrderRequest user) {
         orderService.createOrder(user);
-        return ResponseEntity.ok("Sipariş başarıyla oluşturuldu.");
+        return ResponseEntity.ok("Order successfully created");
     }
 }

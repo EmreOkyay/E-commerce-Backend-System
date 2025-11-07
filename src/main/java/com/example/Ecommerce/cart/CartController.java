@@ -27,7 +27,7 @@ public class CartController {
             @RequestBody AddToCartRequest request
     ) {
         cartService.addToCart(request.getUser(), request.getProductId(), request.getQuantity());
-        return ResponseEntity.ok("Ürün sepete eklendi");
+        return ResponseEntity.ok("Product added to cart");
     }
 
     // 3. Sepetten ürün sil
@@ -37,6 +37,6 @@ public class CartController {
             @PathVariable Long productId
     ) {
         cartService.removeFromCart(user, productId);
-        return ResponseEntity.ok("Ürün sepetten silindi");
+        return ResponseEntity.ok("Product removed from cart");
     }
 }
