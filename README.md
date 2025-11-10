@@ -38,6 +38,11 @@ After clicking the verification link, user will be enabled and can login
 RabbitMQ is hosted locally via Docker and used as a message broker to handle async email notifications. <br>
 When a user registers or completes an order, corresponding email messages are sent by Spring Boot services through RabbitMQ queues.
 
+## Redis Cache
+<img width="1919" height="1079" alt="read-and-write" src="https://github.com/user-attachments/assets/d788c575-d1ba-46ac-beee-c0e1b7a73dd2" />
+Redis is used to cache data for faster access. RabbitMQ handles asynchronous cache updates through a publisher–listener setup that triggers on events such as product add, delete, and purchase.
+
+
 ## Login Page
 <img width="1919" height="1026" alt="Screenshot_8" src="https://github.com/user-attachments/assets/da5f8621-a42a-42e3-86e7-b729ec57b736" />
 
@@ -48,6 +53,7 @@ When a user registers or completes an order, corresponding email messages are se
 - Spring Data JPA & Hibernate
 - PostgreSQL
 - RabbitMQ
+- Redis
 - JavaMailSender
 - BCrypt (password hashing)
 - JUnit / Mockito (for testing)
