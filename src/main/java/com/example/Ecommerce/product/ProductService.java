@@ -1,42 +1,50 @@
 package com.example.Ecommerce.product;
 
-import lombok.AllArgsConstructor;
+import com.example.Ecommerce.redis.CacheUpdatePublisher;
+import com.example.Ecommerce.redis.RedisCacheHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final RedisCacheHelper redisCacheHelper;
+    private final CacheUpdatePublisher cachePublisher;
+
+    public ProductService(ProductRepository productRepository, RedisCacheHelper redisCacheHelper, CacheUpdatePublisher cachePublisher) {
+        this.productRepository = productRepository;
+        this.redisCacheHelper = redisCacheHelper;
+        this.cachePublisher = cachePublisher;
+    }
 
     public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
 
     public Optional<Product> findProductById(Long id) {
-        return productRepository.findById(id);
+        return redisCacheHelper.getOrLoadOptional("product_" + id,new TypeReference<Product>() {},() -> productRepository.findById(id));
     }
 
     public ArrayList<Product> findAllProducts() {
-        return productRepository.findAllProducts();
+        return redisCacheHelper.getOrLoad("all_products", new TypeReference<ArrayList<Product>>() {}, productRepository::findAllProducts);
     }
 
     public Optional<Product> findProductByName(String productName) {
-        return productRepository.findProductByName(productName);
+        return redisCacheHelper.getOrLoadOptional("product_" + productName,new TypeReference<Product>() {},() -> productRepository.findProductByName(productName));
     }
 
     public ArrayList<Product> getProductsWithAvailableStock() {
-        return productRepository.findProductsWithAvailableStock();
+        return redisCacheHelper.getOrLoad("available_products", new TypeReference<ArrayList<Product>>() {}, productRepository::findProductsWithAvailableStock);
     }
 
     public void addProduct(Product product) {
         productRepository.save(product);
+        cachePublisher.publishAddProductEvent(product);
     }
-
 
     @Transactional
     public void buyProduct(Long productId) {
@@ -54,13 +62,16 @@ public class ProductService {
         }
 
         productRepository.save(product);
+        cachePublisher.publishBuyProductEvent(productId);
     }
 
     public void deleteProduct(Long id) {
         if (!productRepository.existsById(id)) {
             throw new RuntimeException("Product with id " + id + " not found");
         }
+
         productRepository.deleteById(id);
+        cachePublisher.publishDeleteProductEvent(id);
     }
 }
 
