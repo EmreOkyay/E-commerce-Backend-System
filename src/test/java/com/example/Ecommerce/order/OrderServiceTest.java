@@ -28,6 +28,8 @@ class OrderServiceTest {
     private CartRepository cartRepository;
     @Mock
     private AppUserRepository appUserRepository;
+    @Mock
+    private OrderProducer orderProducer;
     @InjectMocks
     private OrderService orderService;
 
@@ -65,7 +67,7 @@ class OrderServiceTest {
                 () -> orderService.createOrder(request)
         );
 
-        assertEquals("userId null olamaz.", exception.getMessage());
+        assertEquals("userId can not be null", exception.getMessage());
     }
 
 
@@ -121,7 +123,7 @@ class OrderServiceTest {
         when(cartRepository.findByUser(user)).thenReturn(Optional.empty());
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> orderService.createOrder(request));
-        assertEquals("Kullanıcının sepeti bulunamadı", ex.getMessage());
+        assertEquals("Users cart could not be found", ex.getMessage());
     }
 
     @Test
@@ -142,7 +144,7 @@ class OrderServiceTest {
         IllegalStateException exception = assertThrows(IllegalStateException.class,
                 () -> orderService.createOrder(request));
 
-        assertEquals("Sepet boş. Sipariş oluşturulamaz.", exception.getMessage());
+        assertEquals("Cart is empty. Cannot create an order", exception.getMessage());
     }
 
     @Test
@@ -150,7 +152,13 @@ class OrderServiceTest {
         AppUser user = new AppUser();
         user.setId(1L);
 
-        List<Order> mockOrders = List.of(new Order(), new Order());
+        Order order1 = new Order();
+        order1.setUser(user);
+
+        Order order2 = new Order();
+        order2.setUser(user);
+
+        List<Order> mockOrders = List.of(order1, order2);
 
         when(orderRepository.findAllByUser(user)).thenReturn(mockOrders);
 
@@ -180,7 +188,7 @@ class OrderServiceTest {
         when(orderRepository.findById(1L)).thenReturn(Optional.empty());
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> orderService.getOrderById(1L, user));
-        assertEquals("Sipariş bulunamadı", ex.getMessage());
+        assertEquals("Could not find the order", ex.getMessage());
     }
 
     @Test
@@ -195,6 +203,6 @@ class OrderServiceTest {
         when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
 
         IllegalStateException ex = assertThrows(IllegalStateException.class, () -> orderService.getOrderById(1L, user));
-        assertEquals("Bu sipariş size ait değil.", ex.getMessage());
+        assertEquals("This order does not belong to you", ex.getMessage());
     }
 }

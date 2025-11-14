@@ -6,6 +6,7 @@ import com.example.Ecommerce.email.EmailSender;
 import com.example.Ecommerce.email.EmailValidator;
 import com.example.Ecommerce.registration.token.ConfirmationToken;
 import com.example.Ecommerce.registration.token.ConfirmationTokenService;
+import com.example.Ecommerce.registration.user.UserProducer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,6 +34,9 @@ class RegistrationServiceTest {
 
     @Mock
     private EmailSender emailSender;
+
+    @Mock
+    private UserProducer userProducer;
 
     @InjectMocks
     private RegistrationService registrationService;
@@ -88,7 +92,7 @@ class RegistrationServiceTest {
 
         String result = registrationService.confirmToken(token);
 
-        assertEquals("registration confirmed", result);
+        assertEquals("REGISTRATION CONFIRMED!", result);
         verify(confirmationTokenService).setConfirmedAt(token);
         verify(appUserService).enableAppUser(appUser.getEmail());
     }
@@ -102,7 +106,7 @@ class RegistrationServiceTest {
             registrationService.confirmToken(token);
         });
 
-        assertEquals("token not found", exception.getMessage());
+        assertEquals("token not found!", exception.getMessage());
     }
 
     @Test
@@ -116,7 +120,7 @@ class RegistrationServiceTest {
             registrationService.confirmToken(token);
         });
 
-        assertEquals("email has already been confirmed", exception.getMessage());
+        assertEquals("email has already been confirmed!", exception.getMessage());
     }
 
     @Test
@@ -131,6 +135,6 @@ class RegistrationServiceTest {
             registrationService.confirmToken(token);
         });
 
-        assertEquals("token has expired", exception.getMessage());
+        assertEquals("token has expired!", exception.getMessage());
     }
 }

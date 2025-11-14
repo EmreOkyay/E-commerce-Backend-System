@@ -3,6 +3,8 @@ package com.example.Ecommerce.product;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.example.Ecommerce.redis.CacheUpdatePublisher;
+import com.example.Ecommerce.redis.RedisCacheHelper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
@@ -14,10 +16,16 @@ import java.util.*;
 class ProductServiceTest {
 
     @Mock
-    private ProductRepository productRepository;
+    ProductRepository productRepository;
+
+    @Mock
+    RedisCacheHelper redisCacheHelper;
+
+    @Mock
+    CacheUpdatePublisher cacheUpdatePublisher;
 
     @InjectMocks
-    private ProductService productService;
+    ProductService productService;
 
     @Test
     void itShouldSaveProduct() {
@@ -37,13 +45,13 @@ class ProductServiceTest {
         Product product = new Product();
         product.setProductName("Test");
 
-        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+        when(redisCacheHelper.getOrLoadOptional(eq("product_1"),any(), any())).thenReturn(Optional.of(product));
 
         Optional<Product> found = productService.findProductById(1L);
 
         assertTrue(found.isPresent());
         assertEquals("Test", found.get().getProductName());
-        verify(productRepository).findById(1L);
+        verify(redisCacheHelper).getOrLoadOptional(eq("product_1"), any(), any());
     }
 
     @Test
@@ -54,13 +62,14 @@ class ProductServiceTest {
         p2.setProductName("P2");
 
         ArrayList<Product> mockList = new ArrayList<>(List.of(p1, p2));
-        when(productRepository.findAllProducts()).thenReturn(mockList);
+
+        when(redisCacheHelper.getOrLoad(eq("all_products"), any(com.fasterxml.jackson.core.type.TypeReference.class), any())).thenReturn(mockList);
 
         ArrayList<Product> products = productService.findAllProducts();
 
         assertEquals(2, products.size());
         assertEquals("P1", products.get(0).getProductName());
-        verify(productRepository).findAllProducts();
+        verify(redisCacheHelper).getOrLoad(eq("all_products"), any(), any());
     }
 
     @Test
@@ -68,13 +77,14 @@ class ProductServiceTest {
         Product product = new Product();
         product.setProductName("Name");
 
-        when(productRepository.findProductByName("Name")).thenReturn(Optional.of(product));
+        when(redisCacheHelper.getOrLoadOptional(eq("product_Name"), any(), any())).thenReturn(Optional.of(product));
 
         Optional<Product> found = productService.findProductByName("Name");
 
         assertTrue(found.isPresent());
         assertEquals("Name", found.get().getProductName());
-        verify(productRepository).findProductByName("Name");
+
+        verify(redisCacheHelper).getOrLoadOptional(eq("product_Name"), any(), any());
     }
 
     @Test
@@ -85,12 +95,13 @@ class ProductServiceTest {
         p2.setProductStock(10L);
 
         ArrayList<Product> mockList = new ArrayList<>(List.of(p1, p2));
-        when(productRepository.findProductsWithAvailableStock()).thenReturn(mockList);
+
+        when(redisCacheHelper.getOrLoad(eq("available_products"), any(com.fasterxml.jackson.core.type.TypeReference.class), any())).thenReturn(mockList);
 
         ArrayList<Product> available = productService.getProductsWithAvailableStock();
 
         assertFalse(available.isEmpty());
-        verify(productRepository).findProductsWithAvailableStock();
+        verify(redisCacheHelper).getOrLoad(eq("available_products"), any(), any());
     }
 
     @Test

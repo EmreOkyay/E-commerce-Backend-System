@@ -93,7 +93,7 @@ class OrderControllerUnitTest {
         ResponseEntity<String> response = orderController.createOrder(request);
 
         assertEquals(200, response.getStatusCodeValue());
-        assertEquals("Sipariş başarıyla oluşturuldu.", response.getBody());
+        assertEquals("Order successfully created", response.getBody());
         verify(orderService, times(1)).createOrder(request);
     }
 }

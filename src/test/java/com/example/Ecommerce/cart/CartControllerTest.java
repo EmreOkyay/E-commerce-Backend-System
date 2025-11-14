@@ -50,7 +50,7 @@ class CartControllerTest {
         // given
         AppUser user = new AppUser();
         AddToCartRequest request = new AddToCartRequest(user, 1L, 2);
-        String expectedMessage = "Ürün sepete eklendi";
+        String expectedMessage = "Product added to cart";
 
         // when
         ResponseEntity<String> response = cartController.addToCart(request);
@@ -65,7 +65,7 @@ class CartControllerTest {
         // given
         AppUser user = new AppUser();
         long productId = 1L;
-        String expectedMessage = "Ürün sepetten silindi";
+        String expectedMessage = "Product removed from cart";
 
         // when
         ResponseEntity<String> response = cartController.removeFromCart(user, productId);
