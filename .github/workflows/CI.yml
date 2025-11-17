@@ -41,18 +41,14 @@ jobs:
       - name: Clean and build with Maven
         run: mvn clean package -B --file pom.xml
 
-      # ==========================
-      #   DOCKER BUILD & PUSH
-      # ==========================
-
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build Docker image with docker-compose
-        run: docker-compose build
+      - name: Build Docker image with docker compose
+        run: docker compose build
 
       - name: Tag Docker image
         run: docker tag ecommerce-backend-backend:latest theemreokyay/ecommerce-backend:latest
