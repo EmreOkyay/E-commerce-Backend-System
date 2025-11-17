@@ -38,6 +38,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: theemreokyay/ecommerce-backend:latest
     container_name: ecommerce-backend
     depends_on:
       - redis

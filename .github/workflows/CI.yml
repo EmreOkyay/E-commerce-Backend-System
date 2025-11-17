@@ -50,8 +50,5 @@ jobs:
       - name: Build Docker image with docker compose
         run: docker compose build
 
-      - name: Tag Docker image
-        run: docker tag ecommerce-backend-backend:latest theemreokyay/ecommerce-backend:latest
-
       - name: Push to Docker Hub
         run: docker push theemreokyay/ecommerce-backend:latest
