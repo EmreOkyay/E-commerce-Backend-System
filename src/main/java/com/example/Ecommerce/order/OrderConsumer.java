@@ -1,6 +1,6 @@
 package com.example.Ecommerce.order;
 
-import com.example.Ecommerce.email.MailService;
+import com.example.Ecommerce.email.SmtpMailSender;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class OrderConsumer {
 
-    private final MailService mailService;
+    private final SmtpMailSender smtpMailSender;
     private final ObjectMapper objectMapper;
 
     @RabbitListener(queues = "orderQueue")
@@ -20,7 +20,7 @@ public class OrderConsumer {
             System.out.println("Received order message: " + orderMessage);
 
             if ("PENDING".equalsIgnoreCase(orderMessage.getStatus())) {
-                mailService.sendOrderCreatedEmail(orderMessage.getUserEmail(), orderMessage.getOrderId());
+                smtpMailSender.sendOrderCreatedEmail(orderMessage.getUserEmail(), orderMessage.getOrderId());
             }
         } catch (Exception e) {
             e.printStackTrace();

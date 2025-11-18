@@ -1,6 +1,6 @@
 package com.example.Ecommerce.registration.user;
 
-import com.example.Ecommerce.email.MailService;
+import com.example.Ecommerce.email.SmtpMailSender;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UserConsumer {
 
-    private final MailService mailService;
+    private final SmtpMailSender smtpMailSender;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
 
@@ -20,7 +20,7 @@ public class UserConsumer {
             UserMessage userMessage = objectMapper.readValue(message, UserMessage.class);
 
             if ("USER_ACTIVATED".equalsIgnoreCase(userMessage.getStatus())) {
-                mailService.sendUserActivatedEmail(userMessage.getUserEmail());
+                smtpMailSender.sendUserActivatedEmail(userMessage.getUserEmail());
             }
         } catch (Exception e) {
             e.printStackTrace();
