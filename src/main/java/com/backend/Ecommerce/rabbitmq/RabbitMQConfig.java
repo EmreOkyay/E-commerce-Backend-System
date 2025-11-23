@@ -97,4 +97,6 @@ public class RabbitMQConfig {
     public Binding cacheBuyBinding(Queue cacheBuyQueue, TopicExchange cacheExchange) {
         return BindingBuilder.bind(cacheBuyQueue).to(cacheExchange).with(CACHE_BUY_ROUTING_KEY);
     }
+
+    // TODO: Add rest of the services to RabbitMQ
 }

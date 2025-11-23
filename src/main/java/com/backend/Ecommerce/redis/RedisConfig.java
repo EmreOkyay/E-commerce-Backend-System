@@ -22,4 +22,6 @@ public class RedisConfig {
         poolConfig.setJmxEnabled(false);
         return new JedisPool(poolConfig, redisHost, redisPort);
     }
+
+    // TODO: Add rest of the services to Redis
 }
