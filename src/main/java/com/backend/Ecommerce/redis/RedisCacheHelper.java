@@ -3,6 +3,7 @@ package com.backend.Ecommerce.redis;
 import com.backend.Ecommerce.product.Product;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -15,10 +16,12 @@ import java.util.function.Supplier;
 public class RedisCacheHelper {
 
     private final JedisPool jedisPool;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
-    public RedisCacheHelper(JedisPool jedisPool) {
+    @Autowired
+    public RedisCacheHelper(JedisPool jedisPool, ObjectMapper objectMapper) {
         this.jedisPool = jedisPool;
+        this.objectMapper = objectMapper;
     }
 
     public <T> T getOrLoad(String key, TypeReference<T> typeRef, java.util.function.Supplier<T> dbFallback) {

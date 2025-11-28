@@ -13,12 +13,13 @@ import static com.backend.Ecommerce.rabbitmq.RabbitMQConfig.*;
 public class UserProducer {
 
     private final RabbitTemplate rabbitTemplate;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
     private Queue queue;
 
     @Autowired
-    public UserProducer(RabbitTemplate rabbitTemplate, @Qualifier("userQueue") Queue queue) {
+    public UserProducer(RabbitTemplate rabbitTemplate, ObjectMapper objectMapper, @Qualifier("userQueue") Queue queue) {
         this.rabbitTemplate = rabbitTemplate;
+        this.objectMapper = objectMapper;
         this.queue = queue;
     }
 

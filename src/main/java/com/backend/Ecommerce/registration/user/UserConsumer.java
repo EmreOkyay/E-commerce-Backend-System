@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class UserConsumer {
 
     private final SmtpMailSender smtpMailSender;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
 
     @RabbitListener(queues = "userQueue")
