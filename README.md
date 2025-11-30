@@ -65,4 +65,4 @@ Docker containers are created and run for each service used in the project.
 - Docker
 - JavaMailSender
 - BCrypt (password hashing)
-- JUnit / Mockito (for testing)
+- JUnit / Mockito
