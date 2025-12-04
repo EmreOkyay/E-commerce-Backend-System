@@ -4,6 +4,7 @@ import com.backend.Ecommerce.appuser.AppUser;
 import com.backend.Ecommerce.appuser.AppUserService;
 import com.backend.Ecommerce.email.EmailSender;
 import com.backend.Ecommerce.email.EmailValidator;
+import com.backend.Ecommerce.email.template.EmailTemplateServiceImpl;
 import com.backend.Ecommerce.registration.token.ConfirmationToken;
 import com.backend.Ecommerce.registration.token.ConfirmationTokenService;
 import com.backend.Ecommerce.registration.user.UserProducer;
@@ -38,17 +39,20 @@ class RegistrationServiceTest {
     @Mock
     private UserProducer userProducer;
 
+    @Mock
+    private EmailTemplateServiceImpl emailTemplateService;
+
     @InjectMocks
     private RegistrationService registrationService;
 
     @Test
     void register_shouldReturnToken_whenEmailIsValid() {
-        RegistrationRequest request = new RegistrationRequest(
-                "John", "Doe", "john@example.com", "password123"
-        );
+        RegistrationRequest request = new RegistrationRequest("John", "Doe", "password123", "john@example.com");
 
         when(emailValidator.test(request.getEmail())).thenReturn(true);
         when(appUserService.signUpUser(any(AppUser.class))).thenReturn("token123");
+
+        when(emailTemplateService.buildEmail(anyString(), anyString())).thenReturn("mocked-email-content");
 
         String token = registrationService.register(request);
 
@@ -59,7 +63,7 @@ class RegistrationServiceTest {
     @Test
     void register_shouldThrowException_whenEmailInvalid() {
         RegistrationRequest request = new RegistrationRequest(
-                "John", "Doe", "invalid-email", "password123"
+                "John", "Doe", "password123", "invalid-email"
         );
         when(emailValidator.test(request.getEmail())).thenReturn(false);
 
@@ -128,7 +132,7 @@ class RegistrationServiceTest {
         String token = "token123";
         ConfirmationToken tokenObj = new ConfirmationToken();
         tokenObj.setConfirmedAt(null);
-        tokenObj.setExpiresAt(LocalDateTime.now().minusMinutes(1)); // geçmiş tarih
+        tokenObj.setExpiresAt(LocalDateTime.now().minusMinutes(1));
         when(confirmationTokenService.getToken(token)).thenReturn(java.util.Optional.of(tokenObj));
 
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
