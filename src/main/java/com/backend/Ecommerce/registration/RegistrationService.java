@@ -38,9 +38,9 @@ public class RegistrationService {
     public String register(RegistrationRequest request) {
         boolean isValidEmail = emailValidator.test(request.getEmail());
 
-        if (!isValidEmail) {
+        if (!isValidEmail)
             throw new IllegalStateException("Invalid email address");
-        }
+
         String token = appUserService.signUpUser(
                 new AppUser(
                         request.getFirstName(),
@@ -60,10 +60,7 @@ public class RegistrationService {
 
     @Transactional
     public String confirmToken(String token) {
-        ConfirmationToken confirmationToken = confirmationTokenService
-                .getToken(token)
-                .orElseThrow(() ->
-                        new IllegalStateException("token not found!"));
+        ConfirmationToken confirmationToken = confirmationTokenService.getToken(token).orElseThrow(() -> new IllegalStateException("token not found!"));
 
         if (confirmationToken.getConfirmedAt() != null) {
             throw new IllegalStateException("email has already been confirmed!");

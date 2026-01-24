@@ -48,8 +48,7 @@ public class ProductService {
 
     @Transactional
     public void buyProduct(Long productId) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalStateException("Product not found"));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalStateException("Product not found"));
 
         if (product.getProductStock() <= 0) {
             throw new IllegalStateException("No stock left");
