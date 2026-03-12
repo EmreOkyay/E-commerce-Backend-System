@@ -15,13 +15,21 @@ public class RedisConfig {
     @Value("${spring.data.redis.port}")
     private int redisPort;
 
+    @Value("${spring.data.redis.username}")
+    private String redisUsername;
+
+    @Value("${spring.data.redis.password}")
+    private String redisPassword;
+
+    @Value("${spring.data.redis.ssl}")
+    private boolean useSsl;
+
     @Bean
     public JedisPool jedisPool() {
         JedisPoolConfig poolConfig = new JedisPoolConfig();
         poolConfig.setMaxTotal(10);
         poolConfig.setJmxEnabled(false);
-        return new JedisPool(poolConfig, redisHost, redisPort);
-    }
 
-    // TODO: Add rest of the services to Redis
+        return new JedisPool(poolConfig, redisHost, redisPort, 2000, redisPassword, useSsl);
+    }
 }
